@@ -3,18 +3,35 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 def main():
-    link = '[元データとその他の分析結果の確認](https://github.com/gucchi123/mmm_data)'
-
+    link = '[元データとその他の分析結果の確認](https://github.com/gucchi123/male_mmm_data)'
+    revised_data_date = "2022年6月5日"
+    st.sidebar.write("最終データ更新日:{}".format( revised_data_date ))
     dolists = ["モデルの正確性確認", "広告チャネルの金額確認"]
     DoList = st.sidebar.selectbox(
         '確認したい事項を選択：',dolists
     )
 
+    gender = ["東京男性","東京女性"]
 
     if DoList == "モデルの正確性確認":
-        st.header('＜東京男性＞過去データモデルの適合度')
-        st.markdown(link, unsafe_allow_html=True)   
-        st.image("https://raw.githubusercontent.com/gucchi123/mmm_data/main/5_1733_1.png")
+        selected_gender = st.sidebar.selectbox(
+            '性別を選択：',gender
+        )
+
+        def gitmodelfit(selected_gender, pngfile):
+            st.header('＜{}＞モデルの適合度'.format(selected_gender))
+            st.markdown(link, unsafe_allow_html=True)   
+            if selected_gender == "東京男性":
+                st.image("https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/{}".format(pngfile))
+            elif selected_gender == "東京女性":
+                st.image("https://raw.githubusercontent.com/gucchi123/female_mmm_data/main/{}".format(pngfile))    
+
+        if selected_gender == "東京男性":
+            pngfile="5_1733_1.png"
+            gitmodelfit(selected_gender, pngfile)
+        elif selected_gender == "東京女性":
+            pngfile="5_608_7.png"
+            gitmodelfit(selected_gender, pngfile)
 
 
     elif DoList == "広告チャネルの金額確認":
@@ -25,7 +42,9 @@ def main():
         selected_channel = st.sidebar.selectbox(
         '広告チャネルを選択：',channels)
         training_data_path = r"batch491-1186.csv"
-        optimized_file = r"5_1724_3_reallocated.csv" 
+        #training_data_path = "https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/batch491-1186-male.csv"
+        #optimized_file = r"5_1724_3_reallocated.csv" 
+        optimized_file = "https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/5_1724_3_reallocated.csv"
         
         df_training = pd.read_csv(training_data_path, encoding="cp932")
         
