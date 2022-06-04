@@ -82,11 +82,13 @@ def main():
                         col.metric(label=name, value=f'{value:,.3f} 円')
                 if name == names[2]:
                     try:
-                        value = 0 - data.loc[ data.loc[:, channel]>0 ,channel].mean()
+                        value = selected.loc[:, "optmSpendUnit"].iloc[-1] - selected.loc[:, "initSpendUnit"].iloc[-1]
                         col.metric(label=name, value=f'{value:,.3f} 円')
                     except:
-                        value = 0
+                        value = 0 - data.loc[ data.loc[:, channel]>0 ,channel].mean()
                         col.metric(label=name, value=f'{value:,.3f} 円')
+                        st.write("※1 CPAへの寄与は確認されませんでした（回帰分析の結果の傾きは０です）")
+                        st.write("※2 データ分析上は段階的に投資金額を減らしていくことが推奨されています")
                 if name == names[3]:
                     try:
                         value = selected.loc[:, "optmResponseUnitLift"].iloc[-1]
