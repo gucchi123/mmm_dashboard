@@ -161,7 +161,7 @@ def main():
 
 
         elif selected_gender == "東京女性":
-            st.write("Under Prepation")
+            st.write("準備中")
 
     #データ更新日
     st.sidebar.write("")
