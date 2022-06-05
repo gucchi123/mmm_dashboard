@@ -3,8 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 def main():
-    link = '[東京男性 元データとその他の分析結果の確認](https://github.com/gucchi123/male_mmm_data)'
-    
+    male_link = '[東京男性 元データとその他の分析結果の確認](https://github.com/gucchi123/male_mmm_data)'
+    female_link = '[東京女性 元データとその他の分析結果の確認](https://github.com/gucchi123/female_mmm_data)'
     
     
     dolists = ["モデルの正確性確認", "広告チャネルの金額確認"]
@@ -21,10 +21,12 @@ def main():
 
         def gitmodelfit(selected_gender, pngfile):
             st.header('＜{}＞モデルの適合度'.format(selected_gender))
-            st.markdown(link, unsafe_allow_html=True)   
+             
             if selected_gender == "東京男性":
+                st.markdown(male_link, unsafe_allow_html=True) 
                 st.image("https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/{}".format(pngfile))
             elif selected_gender == "東京女性":
+                st.markdown(female_link, unsafe_allow_html=True) 
                 st.image("https://raw.githubusercontent.com/gucchi123/female_mmm_data/main/{}".format(pngfile))    
 
         if selected_gender == "東京男性":
@@ -42,7 +44,7 @@ def main():
 
         if selected_gender == "東京男性":
             st.header('＜東京男性＞広告最適化ダッシュボード')
-            st.markdown(link, unsafe_allow_html=True)
+            st.markdown(male_link, unsafe_allow_html=True)
             channels = ["シミュレート結果一覧","Facebook広告", "Google広告", "Influencer固定報酬", "Offline施策", "Yahoo広告", "Twitter広告"]
             selected_channel = st.sidebar.selectbox(
             '広告チャネルを選択：',channels)
@@ -161,6 +163,12 @@ def main():
 
 
         elif selected_gender == "東京女性":
+            st.header('＜東京女性＞広告最適化ダッシュボード')
+            st.markdown(female_link, unsafe_allow_html=True)
+            channels = ["シミュレート結果一覧","Facebook広告", "Google広告", "Influencer固定報酬", "Offline施策", "Yahoo広告", "Twitter広告"]
+            selected_channel = st.sidebar.selectbox(
+            '広告チャネルを選択：',channels)
+
             st.write("準備中")
 
     #データ更新日
