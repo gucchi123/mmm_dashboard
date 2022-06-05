@@ -95,8 +95,10 @@ def main():
                         except:
                             value = 0 - data.loc[ data.loc[:, channel]>0 ,channel].mean()
                             col.metric(label=name, value=f'{value:,.3f} 円')
-                            st.write("※1 CPAへの寄与は確認されませんでした（回帰分析の結果の傾きは０の場合、または、投資金額がありません）")
+                            st.write("※1 CPAへの寄与は確認されませんでした")
+                            st.text("(現状投資金額に金額が入っている場合には回帰分析の結果の傾きは０の場合となります。金額が入っていない場合(nan)には投資をしていない広告配信戦略となります)")
                             st.write("※2 データ分析上は段階的に投資金額を減らしていくことが推奨されています")
+                            st.text("(一律に0にするとCPAに影響が出る可能性があるため、十分に検討の上での意思決定が必要となります)")
                     if name == names[3]:
                         try:
                             value = selected.loc[:, "optmResponseUnitLift"].iloc[-1]
@@ -111,6 +113,7 @@ def main():
                 plt.hist(data.loc[ data.loc[:, channel]>0 ,channel], bins=6, color="0.8")
                 plt.legend()
                 st.write("＜グラフ：過去の平均消費金額と最適化＞")
+                st.text("（注）縦軸は出現回数、横軸は１日の投資金額")
                 st.pyplot(fig)
                 st.write('')
                 st.write('-----------------------------------------------------------------------')
