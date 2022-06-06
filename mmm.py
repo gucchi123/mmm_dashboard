@@ -23,6 +23,10 @@ def main():
     female_modelfit_ping = "5_608_7.png"
     
     ######広告チャネルの金額確認######
+    #シミュレーション結果
+    ##################
+    
+    #データ関連
     #男性
     #6/5　#training_data_path = "batch491-1186-male.csv", optimized_file = "5_1724_3_reallocated.csv"
     #6/6
@@ -33,6 +37,7 @@ def main():
     #6/6
     female_training_data = "batch491-1186-female.csv" 
     female_optimized_file = "5_1175_4_reallocated.csv"
+    
     
 
     male_link = '[東京男性 元データとその他の分析結果の確認](https://github.com/gucchi123/male_mmm_data)'
@@ -152,11 +157,11 @@ def main():
                 st.write('-----------------------------------------------------------------------')
                 
             if selected_channel == "シミュレート結果一覧":
-                #6/5
-                #st.image("https://raw.githubusercontent.com/gucchi123/mmm_data/main/5_1724_3_reallocated_hist.png")
-                #6/6
-                st.image("https://raw.githubusercontent.com/gucchi123/mmm_data/main/5_1210_1_reallocated_hist.png")
-                
+                if selected_gender=="東京男性":
+                    st.image("https://raw.githubusercontent.com/gucchi123/mmm_data/main/5_1210_1_reallocated_hist.png")
+                else:
+                    st.image("5_1175_4_reallocated_hist.png")
+
             if selected_channel == "Facebook広告":
                 selected_channels = [ i for i in df_training.columns if "FB" in i if "_S" in i]
                 #st.write(selected_channels)
@@ -338,7 +343,6 @@ def main():
         """
 
         elif selected_gender == "東京女性":
-            st.write(female_training_data)
             visualization(selected_gender, female_training_data,female_optimized_file)
 
 
