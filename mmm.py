@@ -6,16 +6,16 @@ def main():
     #データバージョン情報
     ######モデルの正確性確認セクション######
     t_male_modelfit_date = "2022年6月6日"
-    t_female_modelfit_date = "2022年6月5日"
+    t_female_modelfit_date = "2022年6月6日：精度がまだ良くない状況です"
 
     ######広告チャネルの金額確認######
     t_male_sim_date = "2022年6月6日"
-    t_female_sim_date = "2022年6月5日"
+    t_female_sim_date = "2022年6月6日：精度がまだ良くない状況です"
 
     ######モデルの正確性確認セクション######
     #男性 　　　
     #6/5 = "5_1733_1.png"
-    #latest #6/6
+    #latest #6/6 Surfaceの2022-06-06 00.40 init
     male_modelfit_ping = "5_1210_1.png"
     
     #女性
@@ -30,8 +30,10 @@ def main():
     male_optimized_file = "5_1210_1_reallocated.csv"
     
     #女性
-    #Under constrution
-
+    #6/6
+    female_training_data = "batch491-1186-female.csv" 
+    female_optimized_file = "5_1175_4_reallocated.csv"
+    
 
     male_link = '[東京男性 元データとその他の分析結果の確認](https://github.com/gucchi123/male_mmm_data)'
     female_link = '[東京女性 元データとその他の分析結果の確認](https://github.com/gucchi123/female_mmm_data)'
@@ -68,21 +70,154 @@ def main():
 
 
     elif DoList == "広告チャネルの金額確認":
+
+        def visualization(selected_gender, training_data, optimzed_data ):
+            st.header('＜{}＞広告最適化ダッシュボード'.format(selected_gender))
+            st.markdown(male_link, unsafe_allow_html=True)
+            channels = ["シミュレート結果一覧","Facebook広告", "Google広告", "Influencer固定報酬", "Offline施策", "Yahoo広告", "Twitter広告"]
+            selected_channel = st.sidebar.selectbox(
+            '広告チャネルを選択：',channels)
+
+            if selected_gender=="東京男性":
+                training_data_path = "https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/{}".format(training_data)
+                optimized_file = "https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/{}".format(optimzed_data)
+            else:
+                training_data_path = training_data
+                optimized_file = optimzed_data
+
+            df_training = pd.read_csv(training_data_path, encoding="cp932")
+
+            def investment(channel, file, data):
+                result_data = pd.read_csv(file, encoding="CP932")
+                selected = result_data.loc[result_data.loc[:,"channels"]==channel,:]
+                st.subheader("広告項目：{}".format(channel))
+                fig = plt.figure(figsize=(6,3))
+                plt.title("Spend for {} per day".format(channel))
+                plt.vlines(selected.loc[:, "initSpendUnit"], 0, 50, "0.3", linestyles='dashed', label="Current Ave")
+                plt.vlines(selected.loc[:, "optmSpendUnit"], 0, 50, "red", linestyles='dashed', label="Optm Ave")
+                st.write("＜1日あたりの{}消化金額サマリー＞".format(channel))
+                
+                names = ["現状投資額(Current Ave)","最適値投資額(Optm Ave)", "広告投資金額差分", "CPA改善差分"]
+                num_columns = len(names)
+                cols = st.columns(num_columns)
+                for name, col in zip(names, cols):
+                    if name == names[0]:
+                        try:
+                            value = selected.loc[:, "initSpendUnit"].iloc[-1]
+                            col.metric(label=name, value=f'{value:,.3f} 円')
+                        except IndexError:
+                            st.write("＜データサンプル＞")
+                            st.write("最初の期間の５件")
+                            st.write(data.loc[ data.loc[:, channel]>0 ,["DATE", channel]].head())
+                            st.write("最後の期間の５件")
+                            st.write(data.loc[ data.loc[:, channel]>0 ,["DATE", channel]].tail())
+                            value = data.loc[ data.loc[:, channel]>0 ,channel].mean()
+                            col.metric(label=name, value=f'{value:,.3f} 円')
+                            
+                    if name == names[1]:
+                        try:
+                            value = selected.loc[:, "optmSpendUnit"].iloc[-1]
+                            col.metric(label=name, value=f'{value:,.3f} 円')
+                        except:
+                            value = 0
+                            col.metric(label=name, value=f'{value:,.3f} 円')
+                    if name == names[2]:
+                        try:
+                            value = selected.loc[:, "optmSpendUnit"].iloc[-1] - selected.loc[:, "initSpendUnit"].iloc[-1]
+                            col.metric(label=name, value=f'{value:,.3f} 円')
+                        except:
+                            value = 0 - data.loc[ data.loc[:, channel]>0 ,channel].mean()
+                            col.metric(label=name, value=f'{value:,.3f} 円')
+                            st.write("※1 CPAへの寄与は確認されませんでした")
+                            st.text("(現状投資金額に金額が入っている場合には回帰分析の結果の傾きは０の場合となります。金額が入っていない場合(nan)には投資をしていない広告配信戦略となります)")
+                            st.write("※2 データ分析上は段階的に投資金額を減らしていくことが推奨されています")
+                            st.text("(一律に0にするとCPAに影響が出る可能性があるため、十分に検討の上での意思決定が必要となります)")
+                    if name == names[3]:
+                        try:
+                            value = selected.loc[:, "optmResponseUnitLift"].iloc[-1]
+                            col.metric(label=name, value=f'{value:,.3f} 円')
+                        except:
+                            value = 0
+                            col.metric(label=name, value=f'{value:,.3f} 円')         
+
+                
+                #st.write(data.loc[ data.loc[:, channel]>0 ,channel])
+                st.write('')
+                plt.hist(data.loc[ data.loc[:, channel]>0 ,channel], bins=6, color="0.8")
+                plt.legend()
+                st.write("＜グラフ：過去の平均消費金額と最適化＞")
+                st.text("（注）縦軸は出現回数、横軸は１日の投資金額")
+                st.pyplot(fig)
+                st.write('')
+                st.write('-----------------------------------------------------------------------')
+                
+            if selected_channel == "シミュレート結果一覧":
+                #6/5
+                #st.image("https://raw.githubusercontent.com/gucchi123/mmm_data/main/5_1724_3_reallocated_hist.png")
+                #6/6
+                st.image("https://raw.githubusercontent.com/gucchi123/mmm_data/main/5_1210_1_reallocated_hist.png")
+                
+            if selected_channel == "Facebook広告":
+                selected_channels = [ i for i in df_training.columns if "FB" in i if "_S" in i]
+                #st.write(selected_channels)
+                for channel in selected_channels:
+                    #st.write(channel)
+                    investment(channel, optimized_file, df_training)
+
+            if selected_channel == "Google広告":
+                selected_channels = [ i for i in df_training.columns if "Google" in i if "_S" in i]
+                #st.write(selected_channels)
+                for channel in selected_channels:
+                    #st.write(channel)
+                    investment(channel, optimized_file, df_training)
+
+            if selected_channel == "Influencer固定報酬":
+                selected_channels = [ i for i in df_training.columns if "Influencer" in i if "_S" in i]
+                #st.write(df_training.columns)
+                for channel in selected_channels:
+                    #st.write(channel)
+                    investment(channel, optimized_file, df_training)
+
+            if selected_channel == "Yahoo広告":
+                selected_channels = [ i for i in df_training.columns if "Yahoo" in i if "_S" in i]
+                #st.write(selected_channels)
+                for channel in selected_channels:
+                    #st.write(channel)
+                    investment(channel, optimized_file, df_training)
+
+            if selected_channel == "Twitter広告":
+                selected_channels = [ i for i in df_training.columns if "Twitter" in i if "_S" in i]
+                #st.write(selected_channels)
+                for channel in selected_channels:
+                    #st.write(channel)
+                    investment(channel, optimized_file, df_training)
+
+
+            if selected_channel == "Offline施策":
+                selected_channels = [ i for i in df_training.columns if "boolean" in i if "_S" in i]
+                #st.write(selected_channels)
+                for channel in selected_channels:
+                    #st.write(channel)
+                    investment(channel, optimized_file, df_training)        
+
+
+
         selected_gender = st.sidebar.selectbox(
             '性別を選択：',gender
-        )
+        )            
+
+
 
         if selected_gender == "東京男性":
+            visualization(selected_gender, male_training_data,male_optimized_file)
+            """
             st.header('＜東京男性＞広告最適化ダッシュボード')
             st.markdown(male_link, unsafe_allow_html=True)
             channels = ["シミュレート結果一覧","Facebook広告", "Google広告", "Influencer固定報酬", "Offline施策", "Yahoo広告", "Twitter広告"]
             selected_channel = st.sidebar.selectbox(
             '広告チャネルを選択：',channels)
 
-            #6/5
-            #training_data_path = "https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/batch491-1186-male.csv"
-            #optimized_file = "https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/5_1724_3_reallocated.csv"
-            #6/6
+           
             training_data_path = "https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/{}".format(male_training_data) 
             optimized_file = "https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/{}".format(male_optimized_file)
             
@@ -200,16 +335,12 @@ def main():
                 for channel in selected_channels:
                     #st.write(channel)
                     investment(channel, optimized_file, df_training)        
-
+        """
 
         elif selected_gender == "東京女性":
-            st.header('＜東京女性＞広告最適化ダッシュボード')
-            st.markdown(female_link, unsafe_allow_html=True)
-            channels = ["シミュレート結果一覧","Facebook広告", "Google広告", "Influencer固定報酬", "Offline施策", "Yahoo広告", "Twitter広告"]
-            selected_channel = st.sidebar.selectbox(
-            '広告チャネルを選択：',channels)
+            st.write(female_training_data)
+            visualization(selected_gender, female_training_data,female_optimized_file)
 
-            st.write("準備中")
 
     #データ更新日
     st.sidebar.write("")
