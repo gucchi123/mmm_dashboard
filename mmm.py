@@ -78,7 +78,10 @@ def main():
 
         def visualization(selected_gender, training_data, optimzed_data ):
             st.header('＜{}＞広告最適化ダッシュボード'.format(selected_gender))
-            st.markdown(male_link, unsafe_allow_html=True)
+            if selected_gender == "東京男性":
+                st.markdown(male_link, unsafe_allow_html=True)
+            else:
+                st.markdown(female_link, unsafe_allow_html=True)
             channels = ["シミュレート結果一覧","Facebook広告", "Google広告", "Influencer固定報酬", "Offline施策", "Yahoo広告", "Twitter広告"]
             selected_channel = st.sidebar.selectbox(
             '広告チャネルを選択：',channels)
