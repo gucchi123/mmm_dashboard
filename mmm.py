@@ -3,6 +3,36 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 def main():
+    #データバージョン情報
+    ######モデルの正確性確認セクション######
+    t_male_modelfit_date = "2022年6月6日"
+    t_female_modelfit_date = "2022年6月5日"
+
+    ######広告チャネルの金額確認######
+    t_male_sim_date = "2022年6月6日"
+    t_female_sim_date = "2022年6月5日"
+
+    ######モデルの正確性確認セクション######
+    #男性 　　　
+    #6/5 = "5_1733_1.png"
+    #latest #6/6
+    male_modelfit_ping = "5_1210_1.png"
+    
+    #女性
+    #latest #6/5
+    female_modelfit_ping = "5_608_7.png"
+    
+    ######広告チャネルの金額確認######
+    #男性
+    #6/5　#training_data_path = "batch491-1186-male.csv", optimized_file = "5_1724_3_reallocated.csv"
+    #6/6
+    male_training_data = "batch491-1186-%E7%94%B7%E6%80%A7.csv" 
+    male_optimized_file = "5_1210_1_reallocated.csv"
+    
+    #女性
+    #Under constrution
+
+
     male_link = '[東京男性 元データとその他の分析結果の確認](https://github.com/gucchi123/male_mmm_data)'
     female_link = '[東京女性 元データとその他の分析結果の確認](https://github.com/gucchi123/female_mmm_data)'
     
@@ -30,10 +60,10 @@ def main():
                 st.image("https://raw.githubusercontent.com/gucchi123/female_mmm_data/main/{}".format(pngfile))    
 
         if selected_gender == "東京男性":
-            pngfile="5_1733_1.png"
+            pngfile=male_modelfit_ping
             gitmodelfit(selected_gender, pngfile)
         elif selected_gender == "東京女性":
-            pngfile="5_608_7.png"
+            pngfile=female_modelfit_ping
             gitmodelfit(selected_gender, pngfile)
 
 
@@ -49,8 +79,12 @@ def main():
             selected_channel = st.sidebar.selectbox(
             '広告チャネルを選択：',channels)
 
-            training_data_path = "https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/batch491-1186-male.csv" 
-            optimized_file = "https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/5_1724_3_reallocated.csv"
+            #6/5
+            #training_data_path = "https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/batch491-1186-male.csv"
+            #optimized_file = "https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/5_1724_3_reallocated.csv"
+            #6/6
+            training_data_path = "https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/{}".format(male_training_data) 
+            optimized_file = "https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/{}".format(male_optimized_file)
             
             df_training = pd.read_csv(training_data_path, encoding="cp932")
 
@@ -119,8 +153,11 @@ def main():
                 st.write('-----------------------------------------------------------------------')
                 
             if selected_channel == "シミュレート結果一覧":
-                st.image("https://raw.githubusercontent.com/gucchi123/mmm_data/main/5_1724_3_reallocated_hist.png")
-            
+                #6/5
+                #st.image("https://raw.githubusercontent.com/gucchi123/mmm_data/main/5_1724_3_reallocated_hist.png")
+                #6/6
+                st.image("https://raw.githubusercontent.com/gucchi123/mmm_data/main/5_1210_1_reallocated_hist.png")
+                
             if selected_channel == "Facebook広告":
                 selected_channels = [ i for i in df_training.columns if "FB" in i if "_S" in i]
                 #st.write(selected_channels)
@@ -178,15 +215,11 @@ def main():
     st.sidebar.write("")
     st.sidebar.write("<バージョン管理情報>")
     st.sidebar.text("モデルの正確性")
-    t_male_modelfit_date = "2022年6月5日"
     st.sidebar.text("東京男性:{}".format( t_male_modelfit_date ))
-    t_female_modelfit_date = "2022年6月5日"
     st.sidebar.text("東京女性:{}".format( t_female_modelfit_date ))
     st.sidebar.write("")
     st.sidebar.text("広告投資金額シミュレーション")
-    t_male_sim_date = "2022年6月5日"
     st.sidebar.text("東京男性:{}".format( t_male_sim_date ))
-    t_female_sim_date = "2022年6月5日"
     st.sidebar.text("東京女性:{}".format( t_female_sim_date ))
     
         
