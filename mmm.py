@@ -3,43 +3,65 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 def main():
-    #データバージョン情報
+    st.set_page_config(page_title="Marketing Mix Model DashBoard",
+                        page_icon=":bar_chart:" )
+    ######データバージョン情報######
+
     ######モデルの正確性確認セクション######
-    t_male_modelfit_date = "2022年6月6日"
-    t_female_modelfit_date = "2022年6月6日：精度がまだ良くない状況です"
+
+    ###男性の最新#######
+    
+    ##最新：　　Surface: 2022-06-09 06.35 init
+    ##１個前：　Surface: 2022-06-06 00.40 init
+
+    
+
+    ###女性の最新#######
+    
+    ##最新：　　Surface: 2022-06-11 10.16 init
+    ##１個前：　ThinkPad: 2022-06-06 08.46 init
+
+
+
+    t_male_modelfit_date = "2022年6月6日：OnePageが出ないためこちらは未更新"
+    t_female_modelfit_date = "2022年6月11日(Twitter Scroll反映済)"
 
     ######広告チャネルの金額確認######
-    t_male_sim_date = "2022年6月6日"
-    t_female_sim_date = "2022年6月6日：精度がまだ良くない状況です"
+    t_male_sim_date = "2022年6月11日(Twitter Scroll未反映)"
+    t_female_sim_date = "2022年6月11日(Twitter Scroll反映済)"
 
     ######モデルの正確性確認セクション######
+    ma_ping = "4_1401_4"
+    fe_ping = "1_2335_4"
+    
+    
     #男性 　　　
     #6/5 = "5_1733_1.png"
     #latest #6/6 Surfaceの2022-06-06 00.40 init
-    male_modelfit_ping = "5_1210_1.png"
+    male_modelfit_ping = "5_1210_1.png" #未反映
     
     #女性
-    #latest #6/5 ThinkPad 2022-06-06 08.46 init
-    female_modelfit_ping = "5_608_7.png"
+    #latest #6/5 ThinkPadの2022-06-06 08.46 init（ただし、以下のPNGとは別のものであるため最終的に整合させる）
+    female_modelfit_ping = "{}.png".format(fe_ping)
     
     ######広告チャネルの金額確認########
-    #シミュレーション結果(gitに連携する)#
-    male_simu_file   = "5_1210_1_reallocated_hist.png"
-    female_simu_file = "5_1175_4_reallocated_hist.png"
-    ##################################
+    male_simu_file   = "{}_reallocated_hist.png".format(ma_ping)
+    female_simu_file = "{}_reallocated_hist.png".format(fe_ping)
+  
     
-    ######データ関連######
+    ######データインプット######
     #男性
-    #6/5　#training_data_path = "batch491-1186-male.csv", optimized_file = "5_1724_3_reallocated.csv"
-    #6/6
+    
+    file_type = "git"  # git or local
+    
+    #男性
     male_training_data = "batch491-1186-%E7%94%B7%E6%80%A7.csv" 
-    male_optimized_file = "5_1210_1_reallocated.csv"
+    male_optimized_file = "{}_reallocated.csv".format(ma_ping)
     
     #女性
-    #6/6
     female_training_data = "batch491-1186-%E5%A5%B3%E6%80%A7.csv" 
-    female_optimized_file = "5_1175_4_reallocated.csv"
-    
+    female_optimized_file = "{}_reallocated.csv".format(fe_ping)
+        
 
     male_link = '[東京男性 元データとその他の分析結果の確認](https://github.com/gucchi123/male_mmm_data)'
     female_link = '[東京女性 元データとその他の分析結果の確認](https://github.com/gucchi123/female_mmm_data)'
@@ -78,7 +100,7 @@ def main():
     elif DoList == "広告チャネルの金額確認":
 
         def visualization(selected_gender, training_data, optimzed_data ):
-            st.header('＜{}＞広告最適化ダッシュボード'.format(selected_gender))
+            st.header('＜{}＞広告最適化ダッシュボード:bar_chart:'.format(selected_gender))
             if selected_gender == "東京男性":
                 st.markdown(male_link, unsafe_allow_html=True)
             else:
@@ -88,12 +110,17 @@ def main():
             '広告チャネルを選択：',channels)
 
             if selected_gender=="東京男性":
-                training_data_path = "https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/{}".format(training_data)
-                optimized_file = "https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/{}".format(optimzed_data)
+                if file_type == "git":
+                    training_data_path = "https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/{}".format(training_data)
+                    optimized_file = "https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/{}".format(optimzed_data)
+                elif file_type == "local":
+                    training_data_path = "batch491-1186-男性.csv"
+                    optimized_file = "4_1401_4_reallocated.csv"
             else:
                 training_data_path = "https://raw.githubusercontent.com/gucchi123/female_mmm_data/main/{}".format(training_data)
                 optimized_file = "https://raw.githubusercontent.com/gucchi123/female_mmm_data/main/{}".format(optimzed_data)
-
+            
+            #st.write(training_data_path)
             df_training = pd.read_csv(training_data_path, encoding="cp932")
 
             def investment(channel, file, data):
@@ -112,8 +139,8 @@ def main():
                 for name, col in zip(names, cols):
                     if name == names[0]:
                         try:
-                            value = selected.loc[:, "initSpendUnit"].iloc[-1]
-                            col.metric(label=name, value=f'{value:,.3f} 円')
+                            value = int(selected.loc[:, "initSpendUnit"].iloc[-1])
+                            col.metric(label=name, value=f'{value:,} 円')
                         except IndexError:
                             st.write("＜データサンプル＞")
                             st.write("最初の期間の５件")
@@ -125,15 +152,15 @@ def main():
                             
                     if name == names[1]:
                         try:
-                            value = selected.loc[:, "optmSpendUnit"].iloc[-1]
-                            col.metric(label=name, value=f'{value:,.3f} 円')
+                            value = int(selected.loc[:, "optmSpendUnit"].iloc[-1])
+                            col.metric(label=name, value=f'{value:,} 円')
                         except:
                             value = 0
                             col.metric(label=name, value=f'{value:,.3f} 円')
                     if name == names[2]:
                         try:
-                            value = selected.loc[:, "optmSpendUnit"].iloc[-1] - selected.loc[:, "initSpendUnit"].iloc[-1]
-                            col.metric(label=name, value=f'{value:,.3f} 円')
+                            value = int(selected.loc[:, "optmSpendUnit"].iloc[-1]) - int(selected.loc[:, "initSpendUnit"].iloc[-1])
+                            col.metric(label=name, value=f'{value:,} 円')
                         except:
                             value = 0 - data.loc[ data.loc[:, channel]>0 ,channel].mean()
                             col.metric(label=name, value=f'{value:,.3f} 円')
