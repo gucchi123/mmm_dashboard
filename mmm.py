@@ -11,8 +11,9 @@ def main():
 
     ###男性の最新#######
     
-    ##最新：　　Surface: 2022-06-09 06.35 init
-    ##１個前：　Surface: 2022-06-06 00.40 init
+    ##最新：　　Surface: 2022-06-11 19.00 init
+    ##１個前：　Surface: 2022-06-09 06.35 init
+    ##２個前：　Surface: 2022-06-06 00.40 init
 
     
 
@@ -23,22 +24,22 @@ def main():
 
 
 
-    t_male_modelfit_date = "2022年6月6日：OnePageが出ないためこちらは未更新"
-    t_female_modelfit_date = "2022年6月11日(Twitter Scroll反映済)"
+    t_male_modelfit_date = "2022年6月11日"
+    t_female_modelfit_date = "2022年6月11日"
 
     ######広告チャネルの金額確認######
-    t_male_sim_date = "2022年6月11日(Twitter Scroll未反映)"
-    t_female_sim_date = "2022年6月11日(Twitter Scroll反映済)"
+    t_male_sim_date = "2022年6月11日"
+    t_female_sim_date = "2022年6月11日"
 
     ######モデルの正確性確認セクション######
-    ma_ping = "4_1401_4"
+    ma_ping = "1_1334_1"
     fe_ping = "1_2335_4"
     
     
     #男性 　　　
     #6/5 = "5_1733_1.png"
     #latest #6/6 Surfaceの2022-06-06 00.40 init
-    male_modelfit_ping = "5_1210_1.png" #未反映
+    male_modelfit_ping = "{}.png".format(ma_ping)
     
     #女性
     #latest #6/5 ThinkPadの2022-06-06 08.46 init（ただし、以下のPNGとは別のものであるため最終的に整合させる）
