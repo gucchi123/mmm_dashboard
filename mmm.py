@@ -300,7 +300,7 @@ def main():
     
     elif marketing_kit == "アトリビューションモデル":
         st.write("アトリビューションモデルの分析結果を確認したい場合には、追加でお問い合わせください")
-    elif marketing_kit == "反実仮想(コンバージョンさせるには？)":
+    elif marketing_kit == "反実仮想":
         st.write("反実仮想(コンバージョンさせるには？)の分析結果を確認したい場合には、追加でお問い合わせください")
     elif marketing_kit == "Twitter分析":
         st.write("Twitter分析（プロダクト改善のための感情分析）の分析結果を確認したい場合には、追加でお問い合わせください")
