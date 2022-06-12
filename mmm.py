@@ -260,18 +260,18 @@ def main():
         )
 
         if selected_gender == "東京男性":
-                st.header("＜{}＞投資金額増減時におけるチャネル最適投資金額によるCVの変動分析".format(selected_gender))
-                st.subheader("現状とシミュレーションとしての投資金額(*)の増減割合")
-                st.write("（*）150,000円 - 1,530,000円")
-                st.image("https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/invest_simu/Total_Spend_Increase.png")
-                st.write('-----------------------------------------------------------------------')
-                st.subheader("投資金額(*)を変動させた場合のCV数の増加割合")
-                st.write("（*）150,000円 - 1,530,000円")
-                st.image("https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/invest_simu/Total_Response_Increase.png")
-                st.write("")
-                st.write('-----------------------------------------------------------------------')
-                st.subheader("投資金額毎の分析結果")
-
+            st.header("＜{}＞投資金額増減時におけるチャネル最適投資金額によるCVの変動分析".format(selected_gender))
+            st.subheader("現状とシミュレーションとしての投資金額(*)の増減割合")
+            st.write("（*）150,000円 - 1,530,000円")
+            st.image("https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/invest_simu/Total_Spend_Increase.png")
+            st.write('-----------------------------------------------------------------------')
+            st.subheader("投資金額(*)を変動させた場合のCV数の増加割合")
+            st.write("（*）150,000円 - 1,530,000円")
+            st.image("https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/invest_simu/Total_Response_Increase.png")
+            st.write("")
+            st.write('-----------------------------------------------------------------------')
+            st.subheader("投資金額毎の分析結果")
+            
             for trial in range(150000, 1550000, 20000):
                 if trial==150000:
                     st.write("１日の広告投資金額の総額{:,}円".format(trial))
