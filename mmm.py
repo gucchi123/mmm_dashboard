@@ -3,6 +3,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 def main():
+
+    marketing_kits = ["マーケティングミックスモデル", "アトリビューションモデル", "反実仮想(コンバージョンさせるには？)", 
+                    "Twitter分析", "ペルソナ分析"]
     st.set_page_config(page_title="Marketing Mix Model DashBoard",
                         page_icon=":bar_chart:" )
     ######データバージョン情報######
@@ -68,7 +71,7 @@ def main():
     female_link = '[東京女性 元データとその他の分析結果の確認](https://github.com/gucchi123/female_mmm_data)'
     
     
-    dolists = ["モデルの正確性確認", "広告チャネルの金額確認"]
+    dolists = ["モデルの正確性確認", "広告チャネルの金額確認", "投資金額毎のシミュレーション"]
     DoList = st.sidebar.selectbox(
         '確認したい事項を選択：',dolists
     )
@@ -246,6 +249,22 @@ def main():
  
         elif selected_gender == "東京女性":
             visualization(selected_gender, female_training_data,female_optimized_file)
+
+    elif DoList == "投資金額毎のシミュレーション":
+        selected_gender = st.sidebar.selectbox(
+            '性別を選択：',gender
+        )
+
+        if selected_gender == "東京男性":
+            for trial in range(150000, 1550000, 20000):
+                if trial==150000:
+                    st.write("１日の広告投資金額の総額{:,}円".format(trial))
+                    st.image("https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/invest_simu/{}_reallocated_respo{}.png".format(ma_ping, trial))
+                else:
+                    st.write("１日の広告投資金額の総額{:,}円".format(trial))
+                    st.image("https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/invest_simu/%20{}_reallocated_respo{}.png".format(ma_ping, trial))
+                #st.write("https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/invest_simu/{}_reallocated_respo{}.png".format(ma_ping, trial))
+                st.write('-----------------------------------------------------------------------')
 
 
     #データ更新日
