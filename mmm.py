@@ -260,7 +260,7 @@ def main():
         )
 
         if selected_gender == "東京男性":
-            st.header("＜{}＞投資金額増減時におけるチャネル最適投資金額によるCVの変動分析".format(selected_gender))
+            st.header("＜{}＞投資金額毎の最適投資割合によるCV変動分析".format(selected_gender))
             st.subheader("現状とシミュレーションとしての投資金額(*)の増減割合")
             st.write("（*）150,000円 - 1,530,000円")
             st.image("https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/invest_simu/Total_Spend_Increase.png")
