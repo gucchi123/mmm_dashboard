@@ -304,6 +304,10 @@ def main():
         st.write("反実仮想(コンバージョンさせるには？)の分析結果を確認したい場合には、追加でお問い合わせください")
     elif marketing_kit == "Twitter分析":
         st.write("Twitter分析（プロダクト改善のための感情分析）の分析結果を確認したい場合には、追加でお問い合わせください")
+        st.write("")
+        st.write("＜イメージ＞")
+        st.image("https://raw.githubusercontent.com/gucchi123/WordCloud/main/WordCloud.jpg")
+        st.text("ツイッターのデータを用いて、プロダクト改善のヒントをご提供します")
     elif marketing_kit == "ペルソナ分析":
         st.write("ペルソナ分析の分析結果を確認したい場合には、追加でお問い合わせください")
     elif marketing_kit == "離反顧客分析":
