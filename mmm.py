@@ -4,10 +4,14 @@ import matplotlib.pyplot as plt
 
 def main():
 
+    
+    st.set_page_config(page_title="Marketing Science Kit",
+                        page_icon=":bar_chart:" )
+    
     marketing_kits = ["マーケティングミックスモデル", "アトリビューションモデル", "反実仮想(コンバージョンさせるには？)", 
                     "Twitter分析", "ペルソナ分析"]
-    st.set_page_config(page_title="Marketing Mix Model DashBoard",
-                        page_icon=":bar_chart:" )
+    
+
     ######データバージョン情報######
 
     ######モデルの正確性確認セクション######
@@ -257,6 +261,17 @@ def main():
 
         if selected_gender == "東京男性":
             for trial in range(150000, 1550000, 20000):
+                st.header("＜{}＞投資金額増減時におけるチャネル最適投資金額によるCVの変動分析".format(selected_gender))
+                st.subheader("現状とシミュレーションとしての投資金額(*)の増減割合")
+                st.write("（*）150,000円 - 1,530,000円")
+                st.image("https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/invest_simu/Total_Spend_Increase.png")
+                st.write('-----------------------------------------------------------------------')
+                st.subheader("投資金額(*)を変動させた場合のCV数の増加割合")
+                st.write("（*）150,000円 - 1,530,000円")
+                st.image("https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/invest_simu/Total_Response_Increase.png")
+                st.write("")
+                st.write('-----------------------------------------------------------------------')
+                st.subheader("投資金額毎の分析結果")
                 if trial==150000:
                     st.write("１日の広告投資金額の総額{:,}円".format(trial))
                     st.image("https://raw.githubusercontent.com/gucchi123/male_mmm_data/main/invest_simu/{}_reallocated_respo{}.png".format(ma_ping, trial))
