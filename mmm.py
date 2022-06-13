@@ -298,20 +298,53 @@ def main():
         st.sidebar.text("東京男性:{}".format( t_male_sim_date ))
         st.sidebar.text("東京女性:{}".format( t_female_sim_date ))
     
+
     elif marketing_kit == "アトリビューションモデル":
         st.write("アトリビューションモデルの分析結果を確認したい場合には、追加でお問い合わせください")
+        st.write("")
+        st.write("＜イメージ＞")
+        st.image("https://raw.githubusercontent.com/gucchi123/MarletingKits/main/MTA.PNG")
+        st.write("")
+        st.write("＜必要データ＞")
+        st.write("ユーザーID単位でのウェブ行動データ")
+    
+    
     elif marketing_kit == "反実仮想":
-        st.write("反実仮想(コンバージョンさせるには？)の分析結果を確認したい場合には、追加でお問い合わせください")
+        st.write("反実仮想(過去コンバージョンしなかったユーザーをもしコンバージョンさせる場合、どんな特性を持っていればよいか？)の分析結果を確認したい場合には、追加でお問い合わせください")
+        st.write("")
+        st.write("＜イメージ＞")
+        st.image("https://raw.githubusercontent.com/gucchi123/MarletingKits/main/CounterFactual.PNG")
+        st.write("")
+        st.write("＜必要データ＞")
+        st.write("ユーザーID単位でのユーザー登録情報・ユーザー行動データ・コンバージョン有無")
+    
     elif marketing_kit == "Twitter分析":
         st.write("Twitter分析（プロダクト改善のための感情分析）の分析結果を確認したい場合には、追加でお問い合わせください")
         st.write("")
         st.write("＜イメージ＞")
-        st.image("https://raw.githubusercontent.com/gucchi123/WordCloud/main/WordCloud.jpg")
-        st.text("ツイッターのデータを用いて、プロダクト改善のヒントをご提供します")
+        st.image("https://raw.githubusercontent.com/gucchi123/MarletingKits/main/WordCloud.jpg")
+        st.text("ツイッターのデータを用いて、ポジネガ分析・WordCloud等のプロダクト改善のヒントをご提供します")
+        st.write("")
+        st.write("＜必要データ＞")
+        st.write("Twitter API情報")
+        
+    
+    
     elif marketing_kit == "ペルソナ分析":
         st.write("ペルソナ分析の分析結果を確認したい場合には、追加でお問い合わせください")
+        st.write("")
+        st.write("＜イメージ＞")
+        st.image("https://raw.githubusercontent.com/gucchi123/MarletingKits/main/Free-Personas-Vector.png")
+        st.write("")
+        st.write("＜必要データ＞")
+        st.write("ユーザーID単位でのユーザー登録情報・ユーザー行動データ・コンバージョン有無")
+    
+
     elif marketing_kit == "離反顧客分析":
         st.write("離反分析の分析結果を確認したい場合には、追加でお問い合わせください")
+        st.write("")
+        st.write("＜必要データ＞")
+        st.write("ユーザーID単位でのユーザー登録情報・ユーザー行動データ・離反有無")
         
 
 
